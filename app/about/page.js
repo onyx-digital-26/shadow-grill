@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 
 // --- SUB-COMPONENT: TEXT REVEAL ANIMATION ---
-// This highlights words as you scroll down
 const TextReveal = ({ text }) => {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -48,9 +47,17 @@ const Word = ({ children, range, progress }) => {
 
 // --- DATA: CHEFS ---
 const chefData = [
-  { name: "Antonio Russo", role: "Executive Chef", img: "/images/chef-head.jpg" },
+  {
+    name: "Antonio Russo",
+    role: "Executive Chef",
+    img: "/images/chef-head.jpg",
+  },
   { name: "Sarah Chen", role: "Head Sommelier", img: "/images/chef-sous.jpg" },
-  { name: "Marcus Thorne", role: "Grill Master", img: "/images/chef-pastry.jpg" },
+  {
+    name: "Marcus Thorne",
+    role: "Grill Master",
+    img: "/images/chef-pastry.jpg",
+  },
 ];
 
 // --- MAIN PAGE COMPONENT ---
@@ -77,7 +84,7 @@ export default function About() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="/images/about-bg.jpg" // Make sure this image exists
+            src="/images/about-bg.jpg"
             alt="About Hero"
             fill
             className="object-cover"
@@ -140,7 +147,7 @@ export default function About() {
         >
           <div className="relative z-10 rounded-sm overflow-hidden shadow-2xl group">
             <Image
-              src="/images/story-image.jpg" // Make sure this image exists
+              src="/images/story-image.jpg"
               alt="Chef Cooking"
               width={600}
               height={800}
@@ -238,21 +245,26 @@ export default function About() {
               viewport={{ once: true }}
               className="group relative h-[450px] overflow-hidden rounded-sm cursor-pointer"
             >
+              {/* IMAGE: Full color on mobile, Grayscale on Desktop (until hover) */}
               <Image
                 src={chef.img}
                 alt={chef.name}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0"
+                className="object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale-0 lg:grayscale lg:group-hover:grayscale-0"
               />
+
+              {/* GRADIENT: Stronger on mobile to make text readable */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
 
-              {/* Floating Text Reveal */}
-              <div className="absolute bottom-0 left-0 w-full p-8 text-left transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                <div className="h-[2px] w-[0px] group-hover:w-[40px] bg-[#FFD700] mb-4 transition-all duration-500 delay-100" />
+              {/* TEXT OVERLAY: Always visible on Mobile, Reveal effect on Desktop */}
+              <div className="absolute bottom-0 left-0 w-full p-8 text-left transform translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500">
+                <div className="h-[2px] bg-[#FFD700] mb-4 transition-all duration-500 delay-100 w-[40px] lg:w-[0px] lg:group-hover:w-[40px]" />
+
                 <h3 className="text-2xl text-[#FFD700] font-serif">
                   {chef.name}
                 </h3>
-                <p className="text-white text-xs uppercase tracking-widest mt-1 opacity-70 group-hover:opacity-100 transition-opacity">
+
+                <p className="text-white text-xs uppercase tracking-widest mt-1 opacity-100 lg:opacity-70 lg:group-hover:opacity-100 transition-opacity">
                   {chef.role}
                 </p>
               </div>

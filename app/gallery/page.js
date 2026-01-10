@@ -79,7 +79,7 @@ export default function Gallery() {
       <section className="relative h-[50vh] w-full flex items-center justify-center overflow-hidden mb-16">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/gallery-bg.jpg" // Ensure this image exists
+            src="/images/gallery-bg.jpg"
             alt="Gallery Hero"
             fill
             className="object-cover"
@@ -128,15 +128,42 @@ export default function Gallery() {
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
 
-              {/* Overlay (Hidden by default, shown on hover) */}
-              <div className="absolute inset-0 bg-black/70 flex flex-col justify-center items-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100 border border-[#FFD700]/50 m-4">
-                <span className="text-[#FFD700] text-xs uppercase tracking-widest mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              {/* UPDATED OVERLAY: 
+                 1. Opacity is 100 on Mobile (Visible).
+                 2. Opacity is 0 on Large Screens (lg:opacity-0), reveals on hover.
+              */}
+              <div
+                className="absolute inset-0 bg-black/70 flex flex-col justify-center items-center 
+                              opacity-100 lg:opacity-0 lg:group-hover:opacity-100 
+                              transition-all duration-300 
+                              transform scale-100 lg:scale-95 lg:group-hover:scale-100 
+                              border border-[#FFD700]/50 m-4"
+              >
+                {/* UPDATED TEXT ANIMATIONS:
+                   Removed 'translate' on mobile so text sits perfectly still.
+                   Only added 'translate' on Large (lg:) screens for the hover effect.
+                */}
+                <span
+                  className="text-[#FFD700] text-xs uppercase tracking-widest mb-2 
+                                 translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
+                                 transition-transform duration-500"
+                >
                   {item.category}
                 </span>
-                <h3 className="text-2xl font-serif text-white mb-2 translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">
+
+                <h3
+                  className="text-2xl font-serif text-white mb-2 
+                               translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
+                               transition-transform duration-500 delay-75"
+                >
                   {item.title}
                 </h3>
-                <p className="text-gray-300 text-sm font-light translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+
+                <p
+                  className="text-gray-300 text-sm font-light 
+                              translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
+                              transition-transform duration-500 delay-100"
+                >
                   {item.desc}
                 </p>
               </div>
@@ -186,7 +213,6 @@ export default function Gallery() {
                 className="object-cover"
               />
 
-              {/* Caption Bar */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -205,7 +231,6 @@ export default function Gallery() {
         )}
       </AnimatePresence>
 
-      {/* 4. FOOTER */}
       <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20">
         <div className="container mx-auto px-6 text-center">
           <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
@@ -215,4 +240,4 @@ export default function Gallery() {
       </footer>
     </main>
   );
-};
+}

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
-// We removed the 'images' array because you are now using a Video Background.
 
 const gridItems = [
   {
@@ -24,14 +23,10 @@ const gridItems = [
 ];
 
 export default function Home() {
-  // We removed useState/useEffect because the carousel is gone.
-  // The video plays automatically via CSS/HTML attributes.
-
   return (
     <main className="bg-[#050505] min-h-screen flex flex-col">
       {/* 1. HERO SECTION (Video Background) */}
       <section className="relative h-[100vh] w-full overflow-hidden border-b-[1px] border-b-[#ffd700]/20">
-        {/* Video Background */}
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <video
             autoPlay
@@ -40,15 +35,11 @@ export default function Home() {
             playsInline
             className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
           >
-            {/* Ensure 'smoke.mp4' is in your public/videos folder */}
             <source src="/videos/smoke.mp4" type="video/mp4" />
           </video>
-
-          {/* Dark Overlay Gradient */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/20 to-[#050505]" />
         </div>
 
-        {/* Hero Content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10 pt-[80px]">
           <span className="block text-sm md:text-base tracking-[0.3em] mb-4 text-[#FFD700] font-semibold uppercase animate-fade-in-up">
             EST. 1998
@@ -69,10 +60,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. AESTHETIC GRID SECTION */}
+      {/* 2. AESTHETIC GRID SECTION (UPDATED FOR TABLET/MOBILE) */}
       <section className="w-full py-20 px-4 md:px-10 bg-[#050505]">
         <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
           <div className="text-center mb-16">
             <h3 className="text-[#FFD700] tracking-widest uppercase text-xs md:text-sm mb-3">
               Experience
@@ -92,11 +82,18 @@ export default function Home() {
                   src={item.src}
                   alt={item.title}
                   fill
-                  className="object-cover transition-transform duration-700 md:scale-100 md:group-hover:scale-110"
+                  className="object-cover transition-transform duration-700 scale-100 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/60 md:bg-black/70 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500">
+                {/* UPDATED: The overlay is visible by default (mobile/tablet)
+                   and only fades out/in on Large screens (lg:).
+                */}
+                <div className="absolute inset-0 bg-black/60 lg:bg-black/70 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* UPDATED: Text is visible by default (opacity-100).
+                   On Large screens (lg:), it starts at 0 and shows on hover.
+                */}
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
                   <h2 className="text-white text-2xl md:text-3xl font-serif tracking-widest mb-2 border-b-2 border-[#ffd700] pb-2">
                     {item.title}
                   </h2>
@@ -114,17 +111,14 @@ export default function Home() {
       <section className="relative w-full py-24 px-6 bg-[#0a0a0a] border-t border-[#ffd700]/10 text-center">
         <div className="max-w-3xl mx-auto flex flex-col items-center">
           <div className="w-[1px] h-[40px] bg-[#ffd700] mb-6"></div>
-
           <h2 className="text-3xl md:text-5xl font-serif text-[#FFD700] mb-8 tracking-wide">
             Our Philosophy
           </h2>
-
           <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-10 font-light font-serif italic">
             &quot;Dining is not just about sustenance; it is a ritual. At Shadow
             Grill, we strip away the noise to focus on the essential: the heat
             of the fire and the purity of the ingredients.&quot;
           </p>
-
           <Link
             href="/about"
             className="text-white text-sm tracking-[3px] uppercase border-b border-[#ffd700] pb-2 hover:text-[#ffd700] transition-colors duration-300"
@@ -134,7 +128,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
       <Footer />
     </main>
   );
