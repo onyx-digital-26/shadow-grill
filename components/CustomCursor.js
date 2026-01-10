@@ -6,14 +6,18 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
-  // 1. Default to hidden so it doesn't show on mobile/tablet load
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // 1. HARDWARE CHECK: Stop immediately if device is Touch (Coarse)
+    // This checks if the user has a mouse. If not, we return early.
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouchDevice) return;
+
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
 
-      // 2. Reveal the cursor only when the mouse actually moves
+      // 2. Reveal only on actual mouse movement
       if (!isVisible) {
         setIsVisible(true);
       }
@@ -41,12 +45,11 @@ export default function CustomCursor() {
     };
   }, [isVisible]);
 
-  // 3. If no mouse movement detected yet (mobile/tablet), render nothing
+  // Render nothing if hidden
   if (!isVisible) return null;
 
   return (
     <>
-      {/* 1. The Main Dot (Follows perfectly) */}
       <motion.div
         className="fixed top-0 left-0 w-4 h-4 bg-[#FFD700] rounded-full pointer-events-none z-[9999] mix-blend-difference"
         animate={{
@@ -57,7 +60,6 @@ export default function CustomCursor() {
         transition={{ type: "tween", ease: "backOut", duration: 0 }}
       />
 
-      {/* 2. The Outer Ring (Follows with lag/physics) */}
       <motion.div
         className="fixed top-0 left-0 w-12 h-12 border border-[#FFD700] rounded-full pointer-events-none z-[9999] mix-blend-difference flex items-center justify-center"
         animate={{
