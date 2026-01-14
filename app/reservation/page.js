@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { submitReservation } from "@/app/actions"; // ✅ Import the Server Action
 
+// --- ANIMATION VARIANTS ---
 const heroVars = {
   hidden: { opacity: 0, y: -20 },
   visible: {
@@ -39,14 +41,28 @@ const containerStagger = {
 };
 
 export default function Reservation() {
-  const [formStatus, setFormStatus] = useState("idle");
+  const [formStatus, setFormStatus] = useState("idle"); // idle | loading | success
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("loading");
-    setTimeout(() => {
+    setErrorMessage("");
+
+    // 1. Capture Form Data
+    const formData = new FormData(e.target);
+
+    // 2. Send to Server Action (Supabase)
+    const result = await submitReservation(formData);
+
+    // 3. Handle Result
+    if (result.success) {
       setFormStatus("success");
-    }, 2000);
+    } else {
+      setFormStatus("idle");
+      setErrorMessage(result.message);
+      alert("Booking Failed: " + result.message);
+    }
   };
 
   return (
@@ -83,6 +99,7 @@ export default function Reservation() {
       <section className="relative w-full py-20 px-6 flex justify-center items-center">
         <AnimatePresence mode="wait">
           {formStatus !== "success" ? (
+            /* --- THE FORM --- */
             <motion.div
               key="form"
               variants={formContainerVars}
@@ -91,6 +108,7 @@ export default function Reservation() {
               exit="exit"
               className="w-full max-w-2xl bg-[#111] border border-[#222] border-t-4 border-t-[#FFD700] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-sm relative"
             >
+              {/* Decorative Corner lines */}
               <div className="absolute top-4 left-4 w-4 h-4 border-l border-t border-[#FFD700]/30" />
               <div className="absolute top-4 right-4 w-4 h-4 border-r border-t border-[#FFD700]/30" />
               <div className="absolute bottom-4 left-4 w-4 h-4 border-l border-b border-[#FFD700]/30" />
@@ -123,6 +141,7 @@ export default function Reservation() {
                       Date
                     </label>
                     <input
+                      name="date"
                       type="date"
                       required
                       className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm"
@@ -136,6 +155,7 @@ export default function Reservation() {
                       Time
                     </label>
                     <input
+                      name="time"
                       type="time"
                       required
                       className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm"
@@ -152,7 +172,10 @@ export default function Reservation() {
                     <label className="text-[#FFD700] text-xs uppercase tracking-widest font-bold mb-2">
                       Guests
                     </label>
-                    <select className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm appearance-none">
+                    <select
+                      name="guests"
+                      className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm appearance-none"
+                    >
                       <option value="1">1 Person</option>
                       <option value="2">2 People</option>
                       <option value="3">3 People</option>
@@ -167,7 +190,10 @@ export default function Reservation() {
                     <label className="text-[#FFD700] text-xs uppercase tracking-widest font-bold mb-2">
                       Occasion (Optional)
                     </label>
-                    <select className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm appearance-none">
+                    <select
+                      name="occasion"
+                      className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm appearance-none"
+                    >
                       <option value="">Select Occasion</option>
                       <option value="birthday">Birthday</option>
                       <option value="anniversary">Anniversary</option>
@@ -183,6 +209,7 @@ export default function Reservation() {
                     Full Name
                   </label>
                   <input
+                    name="name"
                     type="text"
                     placeholder="John Doe"
                     required
@@ -196,6 +223,7 @@ export default function Reservation() {
                     Phone Number
                   </label>
                   <input
+                    name="phone"
                     type="tel"
                     placeholder="(555) 000-0000"
                     required
@@ -224,6 +252,7 @@ export default function Reservation() {
               transition={{ type: "spring", stiffness: 60, damping: 15 }}
               className="w-full max-w-lg bg-[#0a0a0a] border-2 border-[#FFD700] p-10 text-center relative overflow-hidden"
             >
+              {/* Confetti / Glow Effect */}
               <div className="absolute inset-0 bg-[#FFD700]/5" />
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#FFD700] blur-[100px] opacity-20" />
 
