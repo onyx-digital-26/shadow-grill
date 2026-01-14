@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+// ✅ NEW: Import the LiveStatus component
+import LiveStatus from "./LiveStatus";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -23,32 +25,20 @@ export default function Header() {
 
   // Animation Variants for Mobile Menu
   const menuVars = {
-    initial: {
-      scaleY: 0,
-    },
+    initial: { scaleY: 0 },
     animate: {
       scaleY: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.12, 0, 0.39, 0],
-      },
+      transition: { duration: 0.5, ease: [0.12, 0, 0.39, 0] },
     },
     exit: {
       scaleY: 0,
-      transition: {
-        delay: 0.5,
-        duration: 0.5,
-        ease: [0.22, 1, 0.36, 1],
-      },
+      transition: { delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
   const containerVars = {
     initial: {
-      transition: {
-        staggerChildren: 0.09,
-        staggerDirection: -1,
-      },
+      transition: { staggerChildren: 0.09, staggerDirection: -1 },
     },
     open: {
       transition: {
@@ -62,43 +52,43 @@ export default function Header() {
   const mobileLinkVars = {
     initial: {
       y: "30vh",
-      transition: {
-        duration: 0.5,
-        ease: [0.37, 0, 0.63, 1],
-      },
+      transition: { duration: 0.5, ease: [0.37, 0, 0.63, 1] },
     },
     open: {
       y: 0,
-      transition: {
-        ease: [0, 0.55, 0.45, 1],
-        duration: 0.7,
-      },
+      transition: { ease: [0, 0.55, 0.45, 1], duration: 0.7 },
     },
   };
 
   return (
     <>
       {/* HEADER */}
-      {/* Ensure Header z-index is lower than the menu when menu is open, or rely on Portal */}
       <header className="fixed top-0 w-full bg-black/90 backdrop-blur-md h-[100px] flex items-center z-[50] border-b border-b-[#ffd700]/20 transition-all duration-300">
         <div className="mx-auto max-w-[1400px] w-full flex justify-between items-center px-6">
-          {/* LOGO */}
-          <Link href="/" className="flex items-center gap-4 group">
-            <div className="relative">
-              <Image
-                src="/images/logo.png"
-                alt="logo"
-                width={55}
-                height={55}
-                priority
-                className="rounded-full animate-[spin_10s_linear_infinite] group-hover:animate-[spin_2s_linear_infinite] filter drop-shadow-[0_0_5px_#ff4500,_0_0_15px_#ffd700]"
-              />
-              <div className="absolute inset-0 rounded-full bg-[#FFD700] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+          {/* LOGO AREA */}
+          <div className="flex items-center gap-6">
+            <Link href="/" className="flex items-center gap-4 group">
+              <div className="relative">
+                <Image
+                  src="/images/logo.png"
+                  alt="logo"
+                  width={55}
+                  height={55}
+                  priority
+                  className="rounded-full animate-[spin_10s_linear_infinite] group-hover:animate-[spin_2s_linear_infinite] filter drop-shadow-[0_0_5px_#ff4500,_0_0_15px_#ffd700]"
+                />
+                <div className="absolute inset-0 rounded-full bg-[#FFD700] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+              </div>
+              <span className="font-serif text-[1.6rem] text-[#FFD700] tracking-wider uppercase hidden sm:block">
+                Shadow Grill
+              </span>
+            </Link>
+
+            {/* ✅ NEW: Added LiveStatus next to the logo (hidden on very small screens) */}
+            <div className="hidden md:block">
+              <LiveStatus />
             </div>
-            <span className="font-serif text-[1.6rem] text-[#FFD700] tracking-wider uppercase">
-              Shadow Grill
-            </span>
-          </Link>
+          </div>
 
           {/* DESKTOP NAV */}
           <nav className="hidden lg:flex items-center gap-[30px] xl:gap-[40px]">
@@ -134,17 +124,24 @@ export default function Header() {
             })}
           </nav>
 
-          {/* HAMBURGER (Mobile) - Only visible when menu is CLOSED */}
-          <button
-            className="lg:hidden text-white hover:text-[#FFD700] transition-colors duration-300"
-            onClick={() => setOpen(true)}
-          >
-            <div className="space-y-2">
-              <span className="block w-8 h-0.5 bg-current"></span>
-              <span className="block w-8 h-0.5 bg-current"></span>
-              <span className="block w-8 h-0.5 bg-current"></span>
+          {/* HAMBURGER (Mobile) */}
+          <div className="flex items-center gap-4 lg:hidden">
+            {/* Show LiveStatus on mobile too, next to hamburger */}
+            <div className="md:hidden scale-75 origin-right">
+              <LiveStatus />
             </div>
-          </button>
+
+            <button
+              className="text-white hover:text-[#FFD700] transition-colors duration-300"
+              onClick={() => setOpen(true)}
+            >
+              <div className="space-y-2">
+                <span className="block w-8 h-0.5 bg-current"></span>
+                <span className="block w-8 h-0.5 bg-current"></span>
+                <span className="block w-8 h-0.5 bg-current"></span>
+              </div>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -158,12 +155,10 @@ export default function Header() {
             exit="exit"
             className="fixed left-0 top-0 w-full h-screen origin-top bg-black text-white p-10 z-[100] flex flex-col justify-center items-center"
           >
-            {/* --- NEW CLOSE BUTTON --- */}
             <button
               onClick={() => setOpen(false)}
               className="absolute top-[35px] right-[30px] text-[#FFD700] hover:text-white transition-colors duration-300"
             >
-              {/* SVG for a nice thin X icon */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -179,7 +174,6 @@ export default function Header() {
                 />
               </svg>
             </button>
-            {/* ------------------------ */}
 
             <motion.div
               variants={containerVars}
@@ -188,27 +182,24 @@ export default function Header() {
               exit="initial"
               className="flex flex-col gap-4 text-center font-serif"
             >
-              {links.map((link) => {
-                const isActive = pathname === link.href;
-                return (
-                  <div key={link.name} className="overflow-hidden">
-                    <motion.div variants={mobileLinkVars}>
-                      <Link
-                        href={link.href}
-                        onClick={() => setOpen(false)}
-                        className={`text-4xl uppercase tracking-wider transition-colors duration-300 
-                          ${
-                            isActive
-                              ? "text-[#FFD700]"
-                              : "text-white/80 hover:text-white"
-                          }`}
-                      >
-                        {link.name}
-                      </Link>
-                    </motion.div>
-                  </div>
-                );
-              })}
+              {links.map((link) => (
+                <div key={link.name} className="overflow-hidden">
+                  <motion.div variants={mobileLinkVars}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className={`text-4xl uppercase tracking-wider transition-colors duration-300 
+                        ${
+                          pathname === link.href
+                            ? "text-[#FFD700]"
+                            : "text-white/80 hover:text-white"
+                        }`}
+                    >
+                      {link.name}
+                    </Link>
+                  </motion.div>
+                </div>
+              ))}
             </motion.div>
 
             <motion.div

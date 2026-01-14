@@ -3,42 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { faqData } from "@/app/data"; // ✅ Data Imported
 
-// --- FAQ DATA ---
-const faqData = [
-  {
-    id: 1,
-    question: "Is there a dress code?",
-    answer:
-      "Yes. We request a 'Smart Casual' or 'Elegant' dress code. Jackets are recommended for gentlemen. We kindly ask guests to avoid sportswear, flip-flops, and baseball caps to maintain our atmosphere.",
-  },
-  {
-    id: 2,
-    question: "Do I need a reservation?",
-    answer:
-      "While we do accept walk-ins based on availability, Shadow Grill is often fully booked weeks in advance. We highly recommend securing a table via our Reservation page.",
-  },
-  {
-    id: 3,
-    question: "Do you accommodate dietary restrictions?",
-    answer:
-      "Absolutely. While we are a steakhouse, our chefs are skilled in preparing vegetarian, gluten-free, and dairy-free options. Please mention any allergies when booking.",
-  },
-  {
-    id: 4,
-    question: "Is there valet parking?",
-    answer:
-      "Yes, complimentary valet parking is available for all dinner guests starting at 5:00 PM located at the main entrance.",
-  },
-  {
-    id: 5,
-    question: "Can I host a private event?",
-    answer:
-      "Yes. We have a private VIP cellar that seats up to 20 guests. For larger inquiries, please contact us directly via the Contact page.",
-  },
-];
-
-// --- ANIMATION VARIANTS ---
 const containerVars = {
   hidden: { opacity: 0 },
   show: {
@@ -74,7 +40,7 @@ export default function FAQ() {
       <section className="relative h-[40vh] w-full flex items-center justify-center overflow-hidden mb-16">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/faq-bg.jpg" // Ensure exists
+            src="/images/faq-bg.jpg"
             alt="FAQ Hero"
             fill
             className="object-cover"
@@ -100,7 +66,6 @@ export default function FAQ() {
 
       {/* 2. FAQ CONTENT */}
       <section className="max-w-3xl mx-auto px-6 pb-20">
-        {/* Search Input */}
         <div className="mb-10 relative">
           <input
             type="text"
@@ -193,15 +158,6 @@ export default function FAQ() {
           )}
         </motion.div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-            &copy; 2026 Shadow Grill. All Questions Answered.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

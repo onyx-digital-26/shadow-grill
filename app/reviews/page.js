@@ -4,36 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { reviewsData } from "@/app/data"; // ✅ Data Imported
 
-// --- REVIEWS DATA (First 3 Only) ---
-const reviewsData = [
-  {
-    id: 1,
-    name: "Abdul Hadi",
-    role: "Food Critic",
-    image: "/images/user-1.jpg",
-    rating: 5,
-    text: "I have dined in Paris, Tokyo, and New York, but the Tomahawk steak at Shadow Grill is in a league of its own. The atmosphere is intoxicating.",
-  },
-  {
-    id: 2,
-    name: "Abdul Hadi Faheem",
-    role: "Verified Guest",
-    image: "/images/user-2.jpg",
-    rating: 5,
-    text: "The service was impeccable. It felt like a private dining experience even though the room was full. The smoked cocktails are a must-try.",
-  },
-  {
-    id: 3,
-    name: "Abdul Hadi",
-    role: "Anniversary Couple",
-    image: "/images/user-3.jpg",
-    rating: 5,
-    text: "A perfect venue for our anniversary. The lighting, the music, the food—everything was orchestrated to perfection. We will be back.",
-  },
-];
-
-// --- ANIMATION VARIANTS ---
 const containerVars = {
   hidden: { opacity: 0 },
   show: {
@@ -62,7 +34,7 @@ export default function Reviews() {
       <section className="relative h-[50vh] w-full flex items-center justify-center overflow-hidden mb-16">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/testimonials-bg.jpg" // Ensure exists
+            src="/images/testimonials-bg.jpg"
             alt="Reviews Hero"
             fill
             className="object-cover"
@@ -88,7 +60,6 @@ export default function Reviews() {
 
       {/* 2. REVIEWS GRID */}
       <section className="max-w-7xl mx-auto px-6 pb-20">
-        {/* Header / Filter Area */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-white/10 pb-6">
           <div>
             <span className="text-[#FFD700] text-3xl font-bold mr-2">5.0</span>
@@ -117,25 +88,18 @@ export default function Reviews() {
               variants={cardVars}
               className="group relative bg-[#111] p-8 rounded border border-[#222] hover:border-[#FFD700] transition-colors duration-300"
             >
-              {/* Quote Icon Background */}
               <div className="absolute top-4 right-6 text-6xl font-serif text-[#222] group-hover:text-[#FFD700]/10 transition-colors duration-300 pointer-events-none select-none">
                 “
               </div>
-
-              {/* Stars */}
               <div className="text-[#FFD700] text-lg tracking-widest mb-6">
                 {"★".repeat(review.rating)}
                 <span className="text-gray-700">
                   {"★".repeat(5 - review.rating)}
                 </span>
               </div>
-
-              {/* Text */}
               <p className="text-gray-300 text-sm leading-7 italic mb-8 relative z-10">
                 &quot;{review.text}&quot;
               </p>
-
-              {/* User Info */}
               <div className="flex items-center gap-4 border-t border-[#333] pt-6 mt-auto">
                 <div className="relative w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-[#FFD700]">
                   <Image
@@ -180,16 +144,7 @@ export default function Reviews() {
         </motion.div>
       </section>
 
-      {/* 4. FOOTER */}
-      <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-            &copy; 2026 Shadow Grill. Five Star Dining.
-          </p>
-        </div>
-      </footer>
-
-      {/* 5. REVIEW MODAL (Simple Form) */}
+      {/* 4. REVIEW MODAL (Simple Form) */}
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
@@ -210,11 +165,9 @@ export default function Reviews() {
               >
                 ✕
               </button>
-
               <h3 className="text-2xl font-serif text-[#FFD700] mb-6 text-center">
                 Share Your Experience
               </h3>
-
               <form className="space-y-4">
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">

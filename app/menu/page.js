@@ -3,113 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// --- SEO METADATA (Exported separately if not using "use client",
-// but for client components we keep it simple or move layout.js.
-// Note: In Next.js App Router, metadata is usually server-side.
-// For this client component, we focus on the UI logic.)
-
-// --- DATA: MENU ITEMS ---
-const menuItems = [
-  {
-    id: 1,
-    name: "Signature Ribeye",
-    category: "Steaks",
-    price: "$49.99",
-    desc: "20oz bone-in ribeye, dry-aged for 45 days, served with truffle butter.",
-    longDesc:
-      "Our crown jewel. This 20oz bone-in ribeye is dry-aged in-house for 45 days to concentrate the flavor, then seared over open oak logs. Finished with a dollop of house-made black truffle butter that melts into the crust.",
-    flavorProfile: ["Rich", "Smokey", "Umami"],
-    pairing: "Vintage Cabernet",
-    image: "/images/item-steak.jpg",
-  },
-  {
-    id: 2,
-    name: "Smoked Short Ribs",
-    category: "Steaks",
-    price: "$60",
-    desc: "Slow-cooked for 12 hours, glazed in our house bourbon BBQ sauce.",
-    longDesc:
-      "Patience is the main ingredient here. These ribs are rubbed with a secret spice blend and smoked low and slow over hickory wood for 12 hours until the meat literally falls off the bone.",
-    flavorProfile: ["Tender", "Sweet & Spicy", "Smokey"],
-    pairing: "Craft Stout or Cola",
-    image: "/images/item-ribs.jpg",
-  },
-  {
-    id: 3,
-    name: "Cedar Plank Salmon",
-    category: "Seafood",
-    price: "$29",
-    desc: "Fresh Atlantic salmon grilled on cedar wood with lemon dill glaze.",
-    longDesc:
-      "Freshly caught Atlantic salmon, grilled directly on a soaked cedar plank. The steam from the wood infuses the fish with a subtle woody aroma, perfectly balancing the zesty lemon dill glaze.",
-    flavorProfile: ["Fresh", "Zesty", "Light"],
-    pairing: "Chardonnay or Sparkling Water",
-    image: "/images/item-salmon.jpg",
-  },
-  {
-    id: 4,
-    name: "The Shadow Burger",
-    category: "Mains",
-    price: "$40",
-    desc: "Wagyu beef blend, black garlic aioli, smoked cheddar, brioche bun.",
-    longDesc:
-      "Not your average burger. We use a custom blend of Wagyu brisket and short rib. Topped with melted smoked cheddar and our signature black garlic aioli for a deep, savory punch.",
-    flavorProfile: ["Juicy", "Savory", "Cheesy"],
-    pairing: "Classic Milkshake",
-    image: "/images/item-burger.jpg",
-  },
-  {
-    id: 5,
-    name: "Vintage Cabernet",
-    category: "Drinks",
-    price: "$5",
-    desc: "A bold red from Napa Valley, pairing perfectly with our steaks. (Alcohol Free)",
-    longDesc:
-      "A premium non-alcoholic dealcoholized wine sourced from Napa Valley grapes. It retains the deep notes of blackberry, dark chocolate, and oak without the alcohol.",
-    flavorProfile: ["Bold", "Fruity", "Dry"],
-    pairing: "Signature Ribeye",
-    image: "/images/item-wine.jpg",
-  },
-  {
-    id: 6,
-    name: "Molten Gold Cake",
-    category: "Dessert",
-    price: "$25",
-    desc: "Dark chocolate fondant with a liquid gold caramel center.",
-    longDesc:
-      "A decadent end to your meal. This dark chocolate fondant is baked fresh to order. Break the shell to reveal a flowing river of salted caramel 'liquid gold'.",
-    flavorProfile: ["Sweet", "Decadent", "Warm"],
-    pairing: "Espresso",
-    image: "/images/item-cake.jpg",
-  },
-  {
-    id: 7,
-    name: "Truffle Fries",
-    category: "Mains",
-    price: "$12",
-    desc: "Hand-cut fries tossed in white truffle oil and parmesan dust.",
-    longDesc:
-      "Crispy double-fried potatoes tossed in premium white truffle oil, rosemary, and aged parmesan cheese. Served with a side of garlic aioli.",
-    flavorProfile: ["Crispy", "Earthy", "Salty"],
-    pairing: "The Shadow Burger",
-    image: "/images/item-fries.jpg", // Reusing image for demo
-  },
-  {
-    id: 8,
-    name: "Smoked Old Fashioned",
-    category: "Drinks",
-    price: "$9.99",
-    desc: "Zero-proof bourbon, maple syrup, orange peel, hickory smoke.",
-    longDesc:
-      "The theatre of dining. We smoke this drink tableside using hickory chips to infuse the non-alcoholic bourbon with a deep, campfire aroma.",
-    flavorProfile: ["Smokey", "Sweet", "Citrus"],
-    pairing: "Smoked Short Ribs",
-    image: "/images/item-drink.jpg", // Reusing image for demo
-  },
-];
-
-const categories = ["All", "Steaks", "Seafood", "Mains", "Drinks", "Dessert"];
+import { menuItems, menuCategories } from "@/app/data"; // ✅ Data Imported
 
 export default function Menu() {
   const [selectedDish, setSelectedDish] = useState(null);
@@ -127,7 +21,7 @@ export default function Menu() {
       <section className="relative h-[50vh] w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/menu-bg.jpg" // Ensure this image exists in public/images/
+            src="/images/menu-bg.jpg"
             alt="Menu Background"
             fill
             className="object-cover"
@@ -162,7 +56,7 @@ export default function Menu() {
 
           {/* Category Tabs */}
           <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((cat) => (
+            {menuCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -318,15 +212,6 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* FOOTER */}
-      <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20 mt-10">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-            &copy; 2026 Shadow Grill. Taste the Darkness.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

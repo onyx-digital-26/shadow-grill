@@ -2,25 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Footer from "@/components/Footer";
-
-const gridItems = [
-  {
-    src: "/images/hero-wood.jpg",
-    title: "Wood Fired",
-    subtitle: "Ancient techniques, modern presentation",
-  },
-  {
-    src: "/images/hero-wine.jpg",
-    title: "Curated Wine",
-    subtitle: "Sommelier selected vintage pairings",
-  },
-  {
-    src: "/images/hero-artisian.jpg",
-    title: "Artisan Chefs",
-    subtitle: "Crafting Masterpieces daily",
-  },
-];
+import { homeGridItems } from "@/app/data"; // ✅ Data Imported
 
 export default function Home() {
   return (
@@ -60,7 +42,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. AESTHETIC GRID SECTION (UPDATED FOR TABLET/MOBILE) */}
+      {/* 2. AESTHETIC GRID SECTION */}
       <section className="w-full py-20 px-4 md:px-10 bg-[#050505]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -73,7 +55,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {gridItems.map((item, i) => (
+            {homeGridItems.map((item, i) => (
               <div
                 key={i}
                 className="relative group w-full max-w-[500px] md:max-w-none mx-auto h-[300px] md:h-[500px] overflow-hidden border border-white/10 rounded-sm hover:border-[#ffd700] transition-colors duration-500"
@@ -85,14 +67,8 @@ export default function Home() {
                   className="object-cover transition-transform duration-700 scale-100 group-hover:scale-110"
                 />
 
-                {/* UPDATED: The overlay is visible by default (mobile/tablet)
-                   and only fades out/in on Large screens (lg:).
-                */}
                 <div className="absolute inset-0 bg-black/60 lg:bg-black/70 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* UPDATED: Text is visible by default (opacity-100).
-                   On Large screens (lg:), it starts at 0 and shows on hover.
-                */}
                 <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500">
                   <h2 className="text-white text-2xl md:text-3xl font-serif tracking-widest mb-2 border-b-2 border-[#ffd700] pb-2">
                     {item.title}
@@ -127,8 +103,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }

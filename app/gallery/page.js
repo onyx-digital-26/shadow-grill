@@ -3,54 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { galleryItems } from "@/app/data"; // ✅ Data Imported
 
-// --- GALLERY DATA ---
-const galleryItems = [
-  {
-    id: 1,
-    title: "Mastery",
-    desc: "Precision in every grain.",
-    image: "/images/gallery-1.png",
-    category: "Kitchen",
-  },
-  {
-    id: 2,
-    title: "Ambiance",
-    desc: "Dining in luxury.",
-    image: "/images/gallery-2.jpg",
-    category: "Interior",
-  },
-  {
-    id: 3,
-    title: "Alchemy",
-    desc: "Smoked cocktails.",
-    image: "/images/gallery-3.jpg",
-    category: "Bar",
-  },
-  {
-    id: 4,
-    title: "Quality",
-    desc: "A5 Wagyu Beef.",
-    image: "/images/gallery-4.png",
-    category: "Ingredients",
-  },
-  {
-    id: 5,
-    title: "Intimacy",
-    desc: "Moments to remember.",
-    image: "/images/gallery-5.jpg",
-    category: "Atmosphere",
-  },
-  {
-    id: 6,
-    title: "The Element",
-    desc: "Born from fire.",
-    image: "/images/gallery-6.jpg",
-    category: "Kitchen",
-  },
-];
-
-// --- ANIMATION VARIANTS ---
 const containerVars = {
   hidden: { opacity: 0 },
   show: {
@@ -120,7 +74,6 @@ export default function Gallery() {
               onClick={() => setSelectedImage(item)}
               className="group relative h-[300px] overflow-hidden rounded-sm cursor-pointer border border-transparent hover:border-[#FFD700] transition-colors duration-500"
             >
-              {/* Image */}
               <Image
                 src={item.image}
                 alt={item.title}
@@ -128,21 +81,13 @@ export default function Gallery() {
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
 
-              {/* UPDATED OVERLAY: 
-                 1. Opacity is 100 on Mobile (Visible).
-                 2. Opacity is 0 on Large Screens (lg:opacity-0), reveals on hover.
-              */}
               <div
                 className="absolute inset-0 bg-black/70 flex flex-col justify-center items-center 
-                              opacity-100 lg:opacity-0 lg:group-hover:opacity-100 
-                              transition-all duration-300 
-                              transform scale-100 lg:scale-95 lg:group-hover:scale-100 
-                              border border-[#FFD700]/50 m-4"
+                             opacity-100 lg:opacity-0 lg:group-hover:opacity-100 
+                             transition-all duration-300 
+                             transform scale-100 lg:scale-95 lg:group-hover:scale-100 
+                             border border-[#FFD700]/50 m-4"
               >
-                {/* UPDATED TEXT ANIMATIONS:
-                   Removed 'translate' on mobile so text sits perfectly still.
-                   Only added 'translate' on Large (lg:) screens for the hover effect.
-                */}
                 <span
                   className="text-[#FFD700] text-xs uppercase tracking-widest mb-2 
                                  translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
@@ -161,8 +106,8 @@ export default function Gallery() {
 
                 <p
                   className="text-gray-300 text-sm font-light 
-                              translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
-                              transition-transform duration-500 delay-100"
+                             translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 
+                             transition-transform duration-500 delay-100"
                 >
                   {item.desc}
                 </p>
@@ -172,7 +117,7 @@ export default function Gallery() {
         </motion.div>
       </section>
 
-      {/* 3. LIGHTBOX (Full Screen Modal) */}
+      {/* 3. LIGHTBOX */}
       <AnimatePresence>
         {selectedImage && (
           <motion.div
@@ -182,7 +127,6 @@ export default function Gallery() {
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
             onClick={() => setSelectedImage(null)}
           >
-            {/* Close Button */}
             <button className="absolute top-6 right-6 text-white/50 hover:text-[#FFD700] z-[110] transition-colors">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -200,7 +144,6 @@ export default function Gallery() {
               </svg>
             </button>
 
-            {/* Modal Content */}
             <motion.div
               layoutId={`card-${selectedImage.id}`}
               className="relative w-full max-w-5xl aspect-video md:aspect-[16/9] rounded-lg overflow-hidden shadow-[0_0_50px_rgba(255,215,0,0.2)]"
@@ -230,14 +173,6 @@ export default function Gallery() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-            &copy; 2026 Shadow Grill. Designed for Elegance.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

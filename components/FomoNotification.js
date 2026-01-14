@@ -2,19 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-// Simulated Data (You can edit this to fit the city)
-const bookings = [
-  { name: "Sarah J.", location: "Downtown", party: "Table for 2" },
-  { name: "Michael K.", location: "West End", party: "VIP Cellar" },
-  {
-    name: "David & Emma",
-    location: "Shadow City",
-    party: "Anniversary Dinner",
-  },
-  { name: "The Thompson Family", location: "North Side", party: "Table for 5" },
-  { name: "James L.", location: "Business District", party: "Table for 4" },
-];
+import { fomoBookings } from "@/app/data"; // ✅ Data Imported
 
 export default function FomoNotification() {
   const [currentBooking, setCurrentBooking] = useState(null);
@@ -22,8 +10,8 @@ export default function FomoNotification() {
   useEffect(() => {
     // Function to trigger a random notification
     const triggerNotification = () => {
-      const randomIdx = Math.floor(Math.random() * bookings.length);
-      setCurrentBooking(bookings[randomIdx]);
+      const randomIdx = Math.floor(Math.random() * fomoBookings.length);
+      setCurrentBooking(fomoBookings[randomIdx]);
 
       // Hide it after 5 seconds
       setTimeout(() => {
@@ -78,7 +66,7 @@ export default function FomoNotification() {
             </p>
           </div>
 
-          {/* Close Button (Optional) */}
+          {/* Close Button */}
           <button
             onClick={() => setCurrentBooking(null)}
             className="absolute top-2 right-2 text-gray-600 hover:text-white text-xs"

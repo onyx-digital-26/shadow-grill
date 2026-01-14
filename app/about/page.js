@@ -4,63 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import TextReveal from "@/components/TextReveal"; // Component we cleaned up
+import { chefData } from "@/app/data"; // ✅ Data Imported
 
-// --- SUB-COMPONENT: TEXT REVEAL ANIMATION ---
-const TextReveal = ({ text }) => {
-  const container = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ["start 0.9", "start 0.25"],
-  });
-
-  const words = text.split(" ");
-
-  return (
-    <p
-      ref={container}
-      className="flex flex-wrap text-lg md:text-xl font-light leading-relaxed text-[#333]"
-    >
-      {words.map((word, i) => {
-        const start = i / words.length;
-        const end = start + 1 / words.length;
-        return (
-          <Word key={i} range={[start, end]} progress={scrollYProgress}>
-            {word}
-          </Word>
-        );
-      })}
-    </p>
-  );
-};
-
-const Word = ({ children, range, progress }) => {
-  const opacity = useTransform(progress, range, [0, 1]);
-  return (
-    <span className="mr-2 relative">
-      <span className="absolute opacity-20 text-gray-600">{children}</span>
-      <motion.span style={{ opacity }} className="text-[#FFD700]">
-        {children}
-      </motion.span>
-    </span>
-  );
-};
-
-// --- DATA: CHEFS ---
-const chefData = [
-  {
-    name: "Antonio Russo",
-    role: "Executive Chef",
-    img: "/images/chef-head.jpg",
-  },
-  { name: "Sarah Chen", role: "Head Sommelier", img: "/images/chef-sous.jpg" },
-  {
-    name: "Marcus Thorne",
-    role: "Grill Master",
-    img: "/images/chef-pastry.jpg",
-  },
-];
-
-// --- MAIN PAGE COMPONENT ---
 export default function About() {
   const ref = useRef(null);
 
@@ -108,9 +54,8 @@ export default function About() {
         </motion.div>
       </section>
 
-      {/* 2. STORY SECTION (With Text Reveal) */}
+      {/* 2. STORY SECTION */}
       <section className="max-w-7xl mx-auto px-6 py-24 flex flex-col md:flex-row items-center gap-16 md:gap-24">
-        {/* Left: Interactive Text */}
         <div className="flex-1">
           <motion.h2
             initial={{ opacity: 0, x: -50 }}
@@ -122,9 +67,18 @@ export default function About() {
           </motion.h2>
 
           <div className="space-y-6">
-            <TextReveal text="Founded in 1998, Shadow Grill was born from a simple desire: to bring the primal art of fire cooking into the modern age of luxury dining." />
-            <TextReveal text="We believed that true flavor hides in the shadows—in the char of the wood, the smoke of the grill, and the dim ambiance where guests can truly focus on the food." />
-            <TextReveal text="What started as a small underground steakhouse has evolved into the city's premier destination for meat lovers, offering an atmosphere that is as bold as our flavors." />
+            <TextReveal
+              text="Founded in 1998, Shadow Grill was born from a simple desire: to bring the primal art of fire cooking into the modern age of luxury dining."
+              className="text-lg md:text-xl font-light leading-relaxed"
+            />
+            <TextReveal
+              text="We believed that true flavor hides in the shadows—in the char of the wood, the smoke of the grill, and the dim ambiance where guests can truly focus on the food."
+              className="text-lg md:text-xl font-light leading-relaxed"
+            />
+            <TextReveal
+              text="What started as a small underground steakhouse has evolved into the city's premier destination for meat lovers, offering an atmosphere that is as bold as our flavors."
+              className="text-lg md:text-xl font-light leading-relaxed"
+            />
           </div>
 
           <motion.div
@@ -137,7 +91,6 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Right: Image with Offset Border */}
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -154,7 +107,6 @@ export default function About() {
               className="object-cover grayscale transition-all duration-700 group-hover:grayscale-0"
             />
           </div>
-          {/* Gold Border Offset */}
           <div className="absolute top-6 left-6 w-full h-full border-2 border-[#FFD700] z-0" />
         </motion.div>
       </section>
@@ -171,7 +123,6 @@ export default function About() {
             }}
             className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center"
           >
-            {/* Card 1 */}
             <motion.div
               variants={{
                 hidden: { y: 30, opacity: 0 },
@@ -187,8 +138,6 @@ export default function About() {
                 shortcuts. Just the honest heat of an open flame.
               </p>
             </motion.div>
-
-            {/* Card 2 */}
             <motion.div
               variants={{
                 hidden: { y: 30, opacity: 0 },
@@ -204,8 +153,6 @@ export default function About() {
                 Respect for the animal is our first priority.
               </p>
             </motion.div>
-
-            {/* Card 3 */}
             <motion.div
               variants={{
                 hidden: { y: 30, opacity: 0 },
@@ -225,7 +172,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* 4. MEET THE MASTERS (Team) */}
+      {/* 4. MEET THE MASTERS */}
       <section className="py-24 px-6 max-w-7xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
@@ -245,25 +192,18 @@ export default function About() {
               viewport={{ once: true }}
               className="group relative h-[450px] overflow-hidden rounded-sm cursor-pointer"
             >
-              {/* IMAGE: Full color on mobile, Grayscale on Desktop (until hover) */}
               <Image
                 src={chef.img}
                 alt={chef.name}
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110 filter grayscale-0 lg:grayscale lg:group-hover:grayscale-0"
               />
-
-              {/* GRADIENT: Stronger on mobile to make text readable */}
               <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
-
-              {/* TEXT OVERLAY: Always visible on Mobile, Reveal effect on Desktop */}
               <div className="absolute bottom-0 left-0 w-full p-8 text-left transform translate-y-0 lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-500">
                 <div className="h-[2px] bg-[#FFD700] mb-4 transition-all duration-500 delay-100 w-[40px] lg:w-[0px] lg:group-hover:w-[40px]" />
-
                 <h3 className="text-2xl text-[#FFD700] font-serif">
                   {chef.name}
                 </h3>
-
                 <p className="text-white text-xs uppercase tracking-widest mt-1 opacity-100 lg:opacity-70 lg:group-hover:opacity-100 transition-opacity">
                   {chef.role}
                 </p>

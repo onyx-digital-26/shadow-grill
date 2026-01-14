@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- ANIMATION VARIANTS ---
 const heroVars = {
   hidden: { opacity: 0, scale: 1.1 },
   visible: {
@@ -42,13 +41,11 @@ const listItem = {
 };
 
 export default function Contact() {
-  const [formStatus, setFormStatus] = useState("idle"); // idle | loading | success
+  const [formStatus, setFormStatus] = useState("idle");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormStatus("loading");
-
-    // Simulate API delay
     setTimeout(() => {
       setFormStatus("success");
     }, 2000);
@@ -65,7 +62,7 @@ export default function Contact() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src="/images/contact-bg.jpg" // Ensure exists
+            src="/images/contact-bg.jpg"
             alt="Contact Hero"
             fill
             className="object-cover"
@@ -114,7 +111,6 @@ export default function Contact() {
             viewport={{ once: true }}
             className="space-y-8"
           >
-            {/* Location */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 📍
@@ -131,7 +127,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Email */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 ✉️
@@ -146,7 +141,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Phone */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 📞
@@ -159,7 +153,6 @@ export default function Contact() {
               </div>
             </motion.div>
 
-            {/* Hours */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 ⏰
@@ -199,9 +192,7 @@ export default function Contact() {
                   <h2 className="text-2xl md:text-3xl font-serif text-[#FFD700] mb-8">
                     Send a Message
                   </h2>
-
                   <form onSubmit={handleSubmit} className="space-y-8">
-                    {/* Name Input */}
                     <div className="group relative">
                       <input
                         type="text"
@@ -218,7 +209,6 @@ export default function Contact() {
                       </label>
                     </div>
 
-                    {/* Email Input */}
                     <div className="group relative">
                       <input
                         type="email"
@@ -235,7 +225,6 @@ export default function Contact() {
                       </label>
                     </div>
 
-                    {/* Subject Input */}
                     <div className="group relative">
                       <input
                         type="text"
@@ -251,7 +240,6 @@ export default function Contact() {
                       </label>
                     </div>
 
-                    {/* Message Input */}
                     <div className="group relative">
                       <textarea
                         rows="4"
@@ -307,7 +295,6 @@ export default function Contact() {
                     Thank you for reaching out. Our concierge team will respond
                     shortly.
                   </p>
-
                   <button
                     onClick={() => setFormStatus("idle")}
                     className="mt-8 text-xs uppercase tracking-widest text-[#FFD700] hover:text-white border-b border-[#FFD700] pb-1 transition-colors"
@@ -320,15 +307,6 @@ export default function Contact() {
           </div>
         </motion.div>
       </section>
-
-      {/* FOOTER */}
-      <footer className="w-full bg-black py-10 border-t border-[#ffd700]/20">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-[#555] text-xs md:text-sm tracking-[0.2em] uppercase font-medium">
-            &copy; 2026 Shadow Grill. Excellence in Dining.
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }
