@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 
 export default function SecretMenu() {
   const [input, setInput] = useState("");
@@ -11,7 +10,11 @@ export default function SecretMenu() {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // 🛑 FIX: Check if 'key' exists before using it
+      if (!e.key) return;
+
       const char = e.key.toUpperCase();
+
       // Only allow letters
       if (/^[A-Z]$/.test(char)) {
         setInput((prev) => {
@@ -54,7 +57,7 @@ export default function SecretMenu() {
             transition={{ type: "spring", stiffness: 100 }}
             className="relative w-full max-w-md aspect-square mb-8"
           >
-            {/* Use a placeholder or a 'Gold Burger' image here */}
+            {/* Gold Icon */}
             <div className="w-64 h-64 mx-auto rounded-full bg-gradient-to-tr from-[#FFD700] to-[#b8860b] shadow-[0_0_100px_#FFD700] flex items-center justify-center animate-pulse">
               <span className="text-6xl">🍔</span>
             </div>

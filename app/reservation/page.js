@@ -3,18 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { submitReservation } from "@/app/actions"; // ✅ Import the Server Action
+import { submitReservation } from "@/app/actions"; // ✅ Make sure this import is here
 
 // --- ANIMATION VARIANTS ---
 const heroVars = {
   hidden: { opacity: 0, y: -20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 1, ease: "easeOut" },
-  },
+  visible: { opacity: 1, y: 0, transition: { duration: 1, ease: "easeOut" } },
 };
-
 const formContainerVars = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: {
@@ -24,24 +19,16 @@ const formContainerVars = {
   },
   exit: { opacity: 0, scale: 0.95, transition: { duration: 0.5 } },
 };
-
 const inputGroupVars = {
   hidden: { opacity: 0, x: -20 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { type: "spring", stiffness: 50 },
-  },
+  visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 50 } },
 };
-
 const containerStagger = {
-  visible: {
-    transition: { staggerChildren: 0.1, delayChildren: 0.3 },
-  },
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
 };
 
 export default function Reservation() {
-  const [formStatus, setFormStatus] = useState("idle"); // idle | loading | success
+  const [formStatus, setFormStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
@@ -49,13 +36,9 @@ export default function Reservation() {
     setFormStatus("loading");
     setErrorMessage("");
 
-    // 1. Capture Form Data
     const formData = new FormData(e.target);
-
-    // 2. Send to Server Action (Supabase)
     const result = await submitReservation(formData);
 
-    // 3. Handle Result
     if (result.success) {
       setFormStatus("success");
     } else {
@@ -99,7 +82,6 @@ export default function Reservation() {
       <section className="relative w-full py-20 px-6 flex justify-center items-center">
         <AnimatePresence mode="wait">
           {formStatus !== "success" ? (
-            /* --- THE FORM --- */
             <motion.div
               key="form"
               variants={formContainerVars}
@@ -108,7 +90,7 @@ export default function Reservation() {
               exit="exit"
               className="w-full max-w-2xl bg-[#111] border border-[#222] border-t-4 border-t-[#FFD700] p-8 md:p-12 shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-sm relative"
             >
-              {/* Decorative Corner lines */}
+              {/* Corners */}
               <div className="absolute top-4 left-4 w-4 h-4 border-l border-t border-[#FFD700]/30" />
               <div className="absolute top-4 right-4 w-4 h-4 border-r border-t border-[#FFD700]/30" />
               <div className="absolute bottom-4 left-4 w-4 h-4 border-l border-b border-[#FFD700]/30" />
@@ -124,6 +106,7 @@ export default function Reservation() {
                 </p>
               </div>
 
+              {/* ✅ FORM START */}
               <motion.form
                 variants={containerStagger}
                 initial="hidden"
@@ -203,19 +186,41 @@ export default function Reservation() {
                   </motion.div>
                 </div>
 
-                {/* Row 3: Name */}
-                <motion.div variants={inputGroupVars} className="flex flex-col">
-                  <label className="text-[#FFD700] text-xs uppercase tracking-widest font-bold mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    name="name"
-                    type="text"
-                    placeholder="John Doe"
-                    required
-                    className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm placeholder:text-gray-600"
-                  />
-                </motion.div>
+                {/* ✅ Row 3: Name & Email (THIS IS THE IMPORTANT PART) */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <motion.div
+                    variants={inputGroupVars}
+                    className="flex flex-col"
+                  >
+                    <label className="text-[#FFD700] text-xs uppercase tracking-widest font-bold mb-2">
+                      Full Name
+                    </label>
+                    <input
+                      name="name"
+                      type="text"
+                      placeholder="John Doe"
+                      required
+                      className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm placeholder:text-gray-600"
+                    />
+                  </motion.div>
+
+                  {/* 👇 THIS IS THE EMAIL FIELD 👇 */}
+                  <motion.div
+                    variants={inputGroupVars}
+                    className="flex flex-col"
+                  >
+                    <label className="text-[#FFD700] text-xs uppercase tracking-widest font-bold mb-2">
+                      Email Address
+                    </label>
+                    <input
+                      name="email"
+                      type="email"
+                      placeholder="john@example.com"
+                      required
+                      className="bg-[#0a0a0a] border border-[#333] p-4 text-white outline-none focus:border-[#FFD700] transition-colors rounded-sm text-sm placeholder:text-gray-600"
+                    />
+                  </motion.div>
+                </div>
 
                 {/* Row 4: Phone */}
                 <motion.div variants={inputGroupVars} className="flex flex-col">
@@ -252,7 +257,6 @@ export default function Reservation() {
               transition={{ type: "spring", stiffness: 60, damping: 15 }}
               className="w-full max-w-lg bg-[#0a0a0a] border-2 border-[#FFD700] p-10 text-center relative overflow-hidden"
             >
-              {/* Confetti / Glow Effect */}
               <div className="absolute inset-0 bg-[#FFD700]/5" />
               <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#FFD700] blur-[100px] opacity-20" />
 

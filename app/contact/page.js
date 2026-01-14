@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { submitContactForm } from "@/app/actions"; // ✅ Import the new Action
 
+// --- ANIMATION VARIANTS ---
 const heroVars = {
   hidden: { opacity: 0, scale: 1.1 },
   visible: {
@@ -41,14 +43,21 @@ const listItem = {
 };
 
 export default function Contact() {
-  const [formStatus, setFormStatus] = useState("idle");
+  const [formStatus, setFormStatus] = useState("idle"); // idle | loading | success
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus("loading");
-    setTimeout(() => {
+
+    const formData = new FormData(e.target);
+    const result = await submitContactForm(formData);
+
+    if (result.success) {
       setFormStatus("success");
-    }, 2000);
+    } else {
+      setFormStatus("idle");
+      alert("Error: " + result.message);
+    }
   };
 
   return (
@@ -111,6 +120,7 @@ export default function Contact() {
             viewport={{ once: true }}
             className="space-y-8"
           >
+            {/* Location */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 📍
@@ -127,6 +137,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
+            {/* Email */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 ✉️
@@ -141,6 +152,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
+            {/* Phone */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 📞
@@ -153,6 +165,7 @@ export default function Contact() {
               </div>
             </motion.div>
 
+            {/* Hours */}
             <motion.div variants={listItem} className="flex gap-6 group">
               <span className="text-2xl pt-1 grayscale group-hover:grayscale-0 transition-all duration-300">
                 ⏰
@@ -192,10 +205,13 @@ export default function Contact() {
                   <h2 className="text-2xl md:text-3xl font-serif text-[#FFD700] mb-8">
                     Send a Message
                   </h2>
+
                   <form onSubmit={handleSubmit} className="space-y-8">
+                    {/* Name Input */}
                     <div className="group relative">
                       <input
                         type="text"
+                        name="name" // ✅ Added name
                         required
                         className="peer w-full bg-transparent border-b-2 border-[#333] py-3 text-white outline-none focus:border-[#FFD700] transition-colors duration-300 placeholder-transparent"
                         placeholder="Your Name"
@@ -209,9 +225,11 @@ export default function Contact() {
                       </label>
                     </div>
 
+                    {/* Email Input */}
                     <div className="group relative">
                       <input
                         type="email"
+                        name="email" // ✅ Added name
                         required
                         className="peer w-full bg-transparent border-b-2 border-[#333] py-3 text-white outline-none focus:border-[#FFD700] transition-colors duration-300 placeholder-transparent"
                         placeholder="Your Email"
@@ -225,9 +243,11 @@ export default function Contact() {
                       </label>
                     </div>
 
+                    {/* Subject Input */}
                     <div className="group relative">
                       <input
                         type="text"
+                        name="subject" // ✅ Added name
                         className="peer w-full bg-transparent border-b-2 border-[#333] py-3 text-white outline-none focus:border-[#FFD700] transition-colors duration-300 placeholder-transparent"
                         placeholder="Subject"
                         id="subject"
@@ -240,9 +260,11 @@ export default function Contact() {
                       </label>
                     </div>
 
+                    {/* Message Input */}
                     <div className="group relative">
                       <textarea
                         rows="4"
+                        name="message" // ✅ Added name
                         required
                         className="peer w-full bg-transparent border-b-2 border-[#333] py-3 text-white outline-none focus:border-[#FFD700] transition-colors duration-300 placeholder-transparent resize-none"
                         placeholder="Message"
@@ -295,6 +317,7 @@ export default function Contact() {
                     Thank you for reaching out. Our concierge team will respond
                     shortly.
                   </p>
+
                   <button
                     onClick={() => setFormStatus("idle")}
                     className="mt-8 text-xs uppercase tracking-widest text-[#FFD700] hover:text-white border-b border-[#FFD700] pb-1 transition-colors"
