@@ -6,7 +6,7 @@ import Preloader from "@/components/Preloader"; // The Cinematic Loading Screen
 import CustomCursor from "@/components/CustomCursor"; // The "Spotlight" Cursor
 import EmberTrail from "@/components/EmberTrail"; // The "Fire" Mouse Trail
 import SecretMenu from "@/components/SecretMenu"; // The Viral "Type SHADOW" Cheat Code
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 // --- AUDIO & MARKETING ---
 import AudioPlayer from "@/components/AudioPlayer"; // Background Ambience
 import StickyCta from "@/components/StickyCta"; // Floating "Book Now" Button
@@ -41,6 +41,7 @@ export default function RootLayout({ children }) {
         <Header />
 
         <div className="min-h-screen">{children}</div>
+        <SpeedInsights />
       </body>
     </html>
   );
