@@ -1,6 +1,6 @@
 import "./globals.css";
 import Header from "@/components/Header";
-
+import { Analytics } from "@vercel/analytics/next";
 // --- VISUAL & INTERACTIVE UTILITIES ---
 import Preloader from "@/components/Preloader"; // The Cinematic Loading Screen
 import CustomCursor from "@/components/CustomCursor"; // The "Spotlight" Cursor
@@ -42,6 +42,7 @@ export default function RootLayout({ children }) {
 
         <div className="min-h-screen">{children}</div>
         <SpeedInsights />
+        < Analytics />
       </body>
     </html>
   );
