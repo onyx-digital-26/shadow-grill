@@ -147,7 +147,7 @@ export default function Contact() {
                   Email
                 </h3>
                 <p className="text-[#FFD700] text-sm font-medium cursor-pointer hover:underline">
-                  shadowgrill@gmail.com
+                  contact@shadowgrill.com
                 </p>
               </div>
             </motion.div>
