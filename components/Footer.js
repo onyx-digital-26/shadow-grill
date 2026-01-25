@@ -79,11 +79,6 @@ export default function Footer() {
               <span className="block text-white mb-1">Location</span>
               123 Culinary Ave, Shadow City
             </li>
-            {/* Updated Email Field for Template Safety */}
-            <li>
-              <span className="block text-white mb-1">Email</span>
-              contact@shadowgrill.com
-            </li>
             <li>
               <span className="block text-white mb-1">Opening Hours</span>
               Mon - Sun: 5pm - 11pm
