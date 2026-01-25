@@ -11,7 +11,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import AudioPlayer from "@/components/AudioPlayer"; // Background Ambience
 import StickyCta from "@/components/StickyCta"; // Floating "Book Now" Button
 import FomoNotification from "@/components/FomoNotification"; // "Live Booking" Popup
-
+import Footer from "@/components/Footer";
 export const metadata = {
   title: "Shadow Grill | The Symphony of Flavor",
   description:
@@ -43,6 +43,7 @@ export default function RootLayout({ children }) {
         <div className="min-h-screen">{children}</div>
         <SpeedInsights />
         < Analytics />
+        <Footer />
       </body>
     </html>
   );
