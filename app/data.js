@@ -178,7 +178,7 @@ export const chefData = [
 export const reviewsData = [
   {
     id: 1,
-    name: "Abdul Hadi",
+    name: "Emma Watson",
     role: "Food Critic",
     image: "/images/user-1.jpg",
     rating: 5,
@@ -186,7 +186,7 @@ export const reviewsData = [
   },
   {
     id: 2,
-    name: "Abdul Hadi Faheem",
+    name: "George",
     role: "Verified Guest",
     image: "/images/user-2.jpg",
     rating: 5,
@@ -194,7 +194,7 @@ export const reviewsData = [
   },
   {
     id: 3,
-    name: "Abdul Hadi",
+    name: "Tom and Jerry",
     role: "Anniversary Couple",
     image: "/images/user-3.jpg",
     rating: 5,
