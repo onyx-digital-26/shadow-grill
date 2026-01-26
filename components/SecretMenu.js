@@ -10,21 +10,16 @@ export default function SecretMenu() {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      // 🛑 FIX: Check if 'key' exists before using it
       if (!e.key) return;
-
       const char = e.key.toUpperCase();
 
-      // Only allow letters
       if (/^[A-Z]$/.test(char)) {
         setInput((prev) => {
           const updated = prev + char;
-          // Check if it matches or ends with the code
           if (updated.includes(secretCode)) {
             setUnlocked(true);
             return "";
           }
-          // Keep string short
           return updated.slice(-10);
         });
       }
@@ -34,6 +29,19 @@ export default function SecretMenu() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // 🔴 FIX: Lock body scroll when unlocked
+  useEffect(() => {
+    if (unlocked) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [unlocked]);
+
   return (
     <AnimatePresence>
       {unlocked && (
@@ -41,12 +49,13 @@ export default function SecretMenu() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[10000] bg-black/95 flex flex-col items-center justify-center text-center p-6"
+          // 🔴 FIX: Added 'overflow-y-auto' so the menu itself can scroll on small screens
+          className="fixed inset-0 z-[10000] bg-black/95 flex flex-col items-center justify-center text-center p-6 overflow-y-auto"
         >
           {/* Close Button */}
           <button
             onClick={() => setUnlocked(false)}
-            className="absolute top-10 right-10 text-white/50 hover:text-white text-xl"
+            className="absolute top-10 right-10 text-white/50 hover:text-white text-xl z-[10001] cursor-pointer"
           >
             ✕ CLOSE
           </button>
@@ -55,11 +64,11 @@ export default function SecretMenu() {
             initial={{ scale: 0.8, rotate: -10 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="relative w-full max-w-md aspect-square mb-8"
+            className="relative w-full max-w-md aspect-square mb-8 shrink-0"
           >
             {/* Gold Icon */}
-            <div className="w-64 h-64 mx-auto rounded-full bg-gradient-to-tr from-[#FFD700] to-[#b8860b] shadow-[0_0_100px_#FFD700] flex items-center justify-center animate-pulse">
-              <span className="text-6xl">🍔</span>
+            <div className="w-40 h-40 md:w-64 md:h-64 mx-auto rounded-full bg-gradient-to-tr from-[#FFD700] to-[#b8860b] shadow-[0_0_100px_#FFD700] flex items-center justify-center animate-pulse">
+              <span className="text-6xl md:text-8xl">🍔</span>
             </div>
           </motion.div>
 
